@@ -17,6 +17,7 @@
 <img src="https://img.shields.io/badge/Redis-7-DC382D?style=for-the-badge&logo=redis&logoColor=white"/>
 <img src="https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white"/>
 <img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge"/>
+<img src="https://img.shields.io/endpoint?url=https://tokei.kojix2.net/badge/github/gajendra-ingle/learnify-platform/lines&style=for-the-badge" />
 
 <br/><br/>
 
