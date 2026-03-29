@@ -1,4 +1,8 @@
 package com.learnify.course.entity;
 
-public class DifficultyLevel {
+public enum DifficultyLevel {
+    BEGINNER,
+    INTERMEDIATE,
+    ADVANCED,
+    ALL_LEVELS
 }

@@ -1,4 +1,8 @@
 package com.learnify.course.entity;
 
-public class CourseStatus {
+public enum CourseStatus {
+    DRAFT,
+    PUBLISHED,
+    ARCHIVED,
+    UNDER_REVIEW
 }
