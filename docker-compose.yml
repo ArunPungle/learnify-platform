@@ -1,14 +1,14 @@
 version: "3.9"
 
 services:
-  # ─── Infrastructure ──────────────────────────────────────
+  # Infrastructure
   postgres-auth:
     image: postgres:15-alpine
-    container_name: postgres-auth
+    container_name: ${POSTGRES_AUTH}
     environment:
-      POSTGRES_DB: auth_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ${AUTH_DB}
+      POSTGRES_USER: ${AUTH_USER}
+      POSTGRES_PASSWORD: ${AUTH_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
@@ -23,11 +23,11 @@ services:
 
   postgres-user:
     image: postgres:15-alpine
-    container_name: postgres-user
+    container_name: ${POSTGRES_USER}
     environment:
-      POSTGRES_DB: user_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ${USER_DB}
+      POSTGRES_USER: ${USER_USER}
+      POSTGRES_PASSWORD: ${USER_PASSWORD}
     ports:
       - "5433:5432"
     volumes:
@@ -41,11 +41,11 @@ services:
 
   postgres-course:
     image: postgres:15-alpine
-    container_name: postgres-course
+    container_name: ${POSTGRES_COURSE}
     environment:
-      POSTGRES_DB: course_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ${COURSE_DB}
+      POSTGRES_USER: ${COURSE_USER}
+      POSTGRES_PASSWORD: ${COURSE_PASSWORD}
     ports:
       - "5434:5432"
     volumes:
@@ -55,11 +55,11 @@ services:
 
   postgres-lesson:
     image: postgres:15-alpine
-    container_name: postgres-lesson
+    container_name: ${POSTGRES_LESSON}
     environment:
-      POSTGRES_DB: lesson_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ${LESSON_DB}
+      POSTGRES_USER: ${LESSON_USER}
+      POSTGRES_PASSWORD: ${LESSON_PASSWORD}
     ports:
       - "5435:5432"
     volumes:
@@ -69,11 +69,11 @@ services:
 
   postgres-enrollment:
     image: postgres:15-alpine
-    container_name: postgres-enrollment
+    container_name: ${POSTGRES_ENROLLMENT}
     environment:
-      POSTGRES_DB: enrollment_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ${ENROLLMENT_DB}
+      POSTGRES_USER: ${ENROLLMENT_USER}
+      POSTGRES_PASSWORD: ${ENROLLMENT_PASSWORD}
     ports:
       - "5436:5432"
     volumes:
@@ -83,11 +83,11 @@ services:
 
   postgres-review:
     image: postgres:15-alpine
-    container_name: postgres-review
+    container_name: ${POSTGRES_REVIEW}
     environment:
-      POSTGRES_DB: review_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ${REVIEW_DB}
+      POSTGRES_USER: ${REVIEW_USER}
+      POSTGRES_PASSWORD: ${REVIEW_PASSWORD}
     ports:
       - "5437:5432"
     volumes:
@@ -97,11 +97,11 @@ services:
 
   postgres-payment:
     image: postgres:15-alpine
-    container_name: postgres-payment
+    container_name: ${POSTGRES_PAYMENT}
     environment:
-      POSTGRES_DB: payment_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ${PAYMENT_DB}
+      POSTGRES_USER: ${PAYMENT_USER}
+      POSTGRES_PASSWORD: ${PAYMENT_PASSWORD}
     ports:
       - "5438:5432"
     volumes:
@@ -111,11 +111,11 @@ services:
 
   postgres-analytics:
     image: postgres:15-alpine
-    container_name: postgres-analytics
+    container_name: ${POSTGRES_ANALYTICS}
     environment:
-      POSTGRES_DB: analytics_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ${ANALYTICS_DB}
+      POSTGRES_USER: ${ANALYTICS_USER}
+      POSTGRES_PASSWORD: ${ANALYTICS_PASSWORD}
     ports:
       - "5439:5432"
     volumes:
@@ -125,7 +125,7 @@ services:
 
   redis:
     image: redis:7-alpine
-    container_name: learnify-redis
+    container_name: ${REDIS}
     ports:
       - "6379:6379"
     volumes:
@@ -140,7 +140,9 @@ services:
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.0
-    container_name: learnify-zookeeper
+    container_name: ${ZOOKEEPER}
+    ports:
+        - "2181:2181"
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
@@ -149,14 +151,14 @@ services:
 
   kafka:
     image: confluentinc/cp-kafka:7.5.0
-    container_name: learnify-kafka
+    container_name: ${KAFKA}
     depends_on:
       - zookeeper
     ports:
       - "9092:9092"
     environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_BROKER_ID: ${KAFKA_BROKER_ID}
+      KAFKA_ZOOKEEPER_CONNECT: ${ZOOKEEPER}:2181
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
@@ -171,7 +173,7 @@ services:
 
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
-    container_name: learnify-kafka-ui
+    container_name: ${KAFKA_UI}
     depends_on:
       - kafka
     ports:
@@ -184,13 +186,13 @@ services:
 
   zipkin:
     image: openzipkin/zipkin:latest
-    container_name: learnify-zipkin
+    container_name: ${ZIPKIN}
     ports:
       - "9411:9411"
     networks:
       - learnify-network
 
-  # ─── Platform Services ────────────────────────────────────
+  # Platform Services
   config-server:
     build:
       context: ./config-server
@@ -229,7 +231,7 @@ services:
     build:
       context: ./api-gateway
       dockerfile: Dockerfile
-    container_name: api-gateway
+    container_name: ${API_GATEWAY}
     ports:
       - "8080:8080"
     depends_on:
