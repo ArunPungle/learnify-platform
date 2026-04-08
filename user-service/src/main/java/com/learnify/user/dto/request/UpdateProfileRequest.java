@@ -1,15 +1,14 @@
 package com.learnify.user.dto.request;
 
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 @Data
-public class UserProfileRequest {
+public class UpdateProfileRequest {
     private String firstName;
     private String lastName;
-    private String bio;
     private String headline;
+    private String bio;
     private String avatarUrl;
-    private String website;
-    private String linkedin;
-    private String twitter;
 }
