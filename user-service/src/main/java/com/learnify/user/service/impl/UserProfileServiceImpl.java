@@ -41,11 +41,17 @@ public class UserProfileServiceImpl implements UserProfileService {
         UserProfile profile = userProfileRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found: " + id));
 
-        if (request.getFirstName() != null) profile.setFirstName(request.getFirstName());
-        if (request.getLastName() != null) profile.setLastName(request.getLastName());
-        if (request.getBio() != null) profile.setBio(request.getBio());
-        if (request.getHeadline() != null) profile.setHeadline(request.getHeadline());
-        if (request.getAvatarUrl() != null) profile.setAvatarUrl(request.getAvatarUrl());
+        if (request.getFirstName() != null)
+            profile.setFirstName(request.getFirstName());
+        if (request.getLastName() != null)
+            profile.setLastName(request.getLastName());
+        if (request.getBio() != null)
+            profile.setBio(request.getBio());
+        if (request.getHeadline() != null)
+            profile.setHeadline(request.getHeadline());
+        if (request.getAvatarUrl() != null)
+            profile.setAvatarUrl(request.getAvatarUrl());
+
         profile.setUpdatedAt(LocalDateTime.now());
 
         return mapToResponse(userProfileRepository.save(profile));
@@ -53,11 +59,17 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     private UserProfileResponse mapToResponse(UserProfile p) {
         return UserProfileResponse.builder()
-                .id(p.getId()).email(p.getEmail()).firstName(p.getFirstName())
-                .lastName(p.getLastName()).avatarUrl(p.getAvatarUrl()).bio(p.getBio())
-                .headline(p.getHeadline()).role(p.getRole().name())
+                .id(p.getId())
+                .email(p.getEmail())
+                .firstName(p.getFirstName())
+                .lastName(p.getLastName())
+                .avatarUrl(p.getAvatarUrl())
+                .bio(p.getBio())
+                .headline(p.getHeadline())
+                .role(p.getRole().name())
                 .instructorVerified(p.isInstructorVerified())
-                .totalStudents(p.getTotalStudents()).totalCourses(p.getTotalCourses())
+                .totalStudents(p.getTotalStudents())
+                .totalCourses(p.getTotalCourses())
                 .build();
     }
 }
