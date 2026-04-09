@@ -63,8 +63,11 @@ public class SecurityConfig {
                 try {
                     byte[] keyBytes = Base64.getDecoder().decode(secret);
                     SecretKey key = Keys.hmacShaKeyFor(keyBytes);
-                    Claims claims = Jwts.parser().verifyWith(key)
-                            .build().parseSignedClaims(token).getPayload();
+                    Claims claims = Jwts.parserBuilder()
+                            .setSigningKey(key)
+                            .build()
+                            .parseClaimsJws(token)
+                            .getBody();
                     String role = claims.get("role", String.class);
                     String userId = claims.get("userId", String.class);
 

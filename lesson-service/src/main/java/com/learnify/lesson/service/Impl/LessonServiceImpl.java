@@ -81,7 +81,9 @@ public class LessonServiceImpl implements LessonService {
 
     private SectionResponse mapSectionToResponse(Section s) {
         return SectionResponse.builder()
-                .id(s.getId()).courseId(s.getCourseId()).title(s.getTitle())
+                .id(s.getId())
+                .courseId(s.getCourseId())
+                .title(s.getTitle())
                 .orderIndex(s.getOrderIndex())
                 .lessons(s.getLessons().stream().map(this::mapLessonToResponse).collect(Collectors.toList()))
                 .build();
@@ -89,10 +91,15 @@ public class LessonServiceImpl implements LessonService {
 
     private LessonResponse mapLessonToResponse(Lesson l) {
         return LessonResponse.builder()
-                .id(l.getId()).sectionId(l.getSection().getId()).title(l.getTitle())
-                .description(l.getDescription()).type(l.getType().name())
-                .videoUrl(l.getVideoUrl()).videoDurationSeconds(l.getVideoDurationSeconds())
-                .contentText(l.getContentText()).orderIndex(l.getOrderIndex())
+                .id(l.getId())
+                .sectionId(l.getSection().getId())
+                .title(l.getTitle())
+                .description(l.getDescription())
+                .type(l.getType().name())
+                .videoUrl(l.getVideoUrl())
+                .videoDurationSeconds(l.getVideoDurationSeconds())
+                .contentText(l.getContentText())
+                .orderIndex(l.getOrderIndex())
                 .freePreview(l.isFreePreview())
                 .build();
     }
