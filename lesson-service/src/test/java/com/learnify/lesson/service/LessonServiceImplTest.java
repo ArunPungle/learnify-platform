@@ -11,6 +11,8 @@ import com.learnify.lesson.exception.LessonNotFoundException;
 import com.learnify.lesson.repository.LessonRepository;
 import com.learnify.lesson.repository.SectionRepository;
 
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,7 +23,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class LessonServiceImplTest {
@@ -34,6 +35,9 @@ class LessonServiceImplTest {
 
     @InjectMocks
     private LessonService lessonService;
+
+    private Section section;
+    private Lesson lesson;
 
     @BeforeEach
     void setUp() {
