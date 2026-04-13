@@ -53,21 +53,22 @@ public class SecurityConfig {
         private String secret;
 
         @Override
-        protected void doFilterInternal(HttpServletRequest request,
-                                        HttpServletResponse response, FilterChain chain)
-                throws ServletException, IOException {
+        protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
             String username = request.getHeader("X-User-Name");
-            String token    = request.getHeader("X-Auth-Token");
+            String token = request.getHeader("X-Auth-Token");
 
             if (username != null && token != null &&
                     SecurityContextHolder.getContext().getAuthentication() == null) {
                 try {
                     byte[] keyBytes = Base64.getDecoder().decode(secret);
-                    SecretKey key   = Keys.hmacShaKeyFor(keyBytes);
-                    Claims claims   = Jwts.parser().verifyWith(key)
-                            .build().parseSignedClaims(token).getPayload();
-                    String role     = claims.get("role", String.class);
-                    String userId   = claims.get("userId", String.class);
+                    SecretKey key = Keys.hmacShaKeyFor(keyBytes);
+                    Claims claims = Jwts.parser()
+                            .verifyWith(key)
+                            .build()
+                            .parseSignedClaims(token)
+                            .getPayload();
+                    String role = claims.get("role", String.class);
+                    String userId = claims.get("userId", String.class);
 
                     UsernamePasswordAuthenticationToken auth =
                             new UsernamePasswordAuthenticationToken(username, null,

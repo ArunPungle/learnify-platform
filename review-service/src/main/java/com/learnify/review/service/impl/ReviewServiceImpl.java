@@ -22,6 +22,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ReviewServiceImpl implements ReviewService {
 
+    private static final int MIN_RATING = 1;
+    private static final int MAX_RATING = 5;
 
     private final ReviewRepository reviewRepository;
 
@@ -31,7 +33,6 @@ public class ReviewServiceImpl implements ReviewService {
         if (reviewRepository.existsByStudentIdAndCourseId(studentId, request.getCourseId())) {
             throw new ReviewException("You have already reviewed this course");
         }
-
         Review review = Review.builder()
                 .studentId(studentId)
                 .courseId(request.getCourseId())
@@ -74,10 +75,14 @@ public class ReviewServiceImpl implements ReviewService {
         return mapToResponse(reviewRepository.save(review));
     }
 
-    private ReviewResponse mapToResponse(Review r) {
+    private ReviewResponse mapToResponse(Review review) {
         return ReviewResponse.builder()
-                .id(r.getId()).studentId(r.getStudentId()).courseId(r.getCourseId())
-                .rating(r.getRating()).comment(r.getComment()).createdAt(r.getCreatedAt())
+                .id(review.getId())
+                .studentId(review.getStudentId())
+                .courseId(review.getCourseId())
+                .rating(review.getRating())
+                .comment(review.getComment())
+                .createdAt(review.getCreatedAt())
                 .build();
     }
 
